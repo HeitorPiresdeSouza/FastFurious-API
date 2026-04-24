@@ -44,6 +44,17 @@ public class ProdutoController {
         }
     }
     
+    @GetMapping("/produto/cat/{categoria}")
+    public ResponseEntity<Produto> buscar (@PathVariable String categoria){
+        
+        Optional<Produto> produto = produtoRepository.findByCategoria(categoria);
+        
+        if(produto.isPresent()){
+            return ResponseEntity.ok(produto.get());
+        }
+        return ResponseEntity.notFound().build();
+    }
+    
     @PostMapping("/produto")
     @ResponseStatus(HttpStatus.CREATED)
     public Produto adicionar(@Valid @RequestBody Produto produto){

@@ -13,7 +13,7 @@ public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     
     @NotBlank
     @Size(max=60)
@@ -37,7 +37,7 @@ public class Produto {
     
     }
 
-    public Produto(long id, String name, String descricao, String categoria, String imagem, Double qtd, Double valor) {
+    public Produto(Long id, String name, String descricao, String categoria, String imagem, Double qtd, Double valor) {
         this.id = id;
         this.name = name;
         this.descricao = descricao;
@@ -47,11 +47,11 @@ public class Produto {
         this.valor = valor;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
