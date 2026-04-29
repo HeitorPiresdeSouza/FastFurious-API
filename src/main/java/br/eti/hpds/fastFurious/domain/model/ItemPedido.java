@@ -1,12 +1,13 @@
 package br.eti.hpds.fastFurious.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.util.Objects;
 
@@ -15,35 +16,46 @@ public class ItemPedido {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     
     @Size(max=150)
     private String obs;
     
-    @NotBlank
+    @NotNull
     private Double vUnit;
     
     @ManyToOne
     @JoinColumn(name = "produto_id")
     private Produto produto;
+    
+    @ManyToOne
+    @JoinColumn(name = "pedido_id")
+    @JsonIgnore
+    private Pedido pedido;
 
     public ItemPedido() {
     }
 
-    public ItemPedido(long id, String obs, Double vUnit, Produto produto) {
+    public ItemPedido(Long id, String obs, Double vUnit, Produto produto) {
         this.id = id;
         this.obs = obs;
         this.vUnit = vUnit;
         this.produto = produto;
     }
 
-    
+    public Pedido getPedido() {
+        return pedido;
+    }
 
-    public long getId() {
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

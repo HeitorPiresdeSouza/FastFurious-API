@@ -1,5 +1,6 @@
 package br.eti.hpds.fastFurious.domain.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -36,7 +37,7 @@ public class Pedido {
     @Size(max=11)
     private String cpf;
     
-    @OneToMany
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List <ItemPedido> listaItens;
     
     @Enumerated(EnumType.STRING)

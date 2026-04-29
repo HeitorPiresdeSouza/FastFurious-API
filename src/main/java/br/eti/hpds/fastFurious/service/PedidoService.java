@@ -53,9 +53,21 @@ public class PedidoService {
         pedidoRepository.deleteById(pedidoID);
     }
 
+//    public Pedido criar(Pedido pedido) {
+//        pedido.setDataAbertura(LocalDateTime.now());
+//        pedido.setStatus(StatusPedido.ABERTO);
+//        return pedidoRepository.save(pedido);
+//    }
+//    
     public Pedido criar(Pedido pedido) {
         pedido.setDataAbertura(LocalDateTime.now());
         pedido.setStatus(StatusPedido.ABERTO);
+
+        // Vínculo bidirecional: resolve o TransientPropertyValueException
+        if (pedido.getListaItens() != null) {
+            pedido.getListaItens().forEach(item -> item.setPedido(pedido));
+        }
+
         return pedidoRepository.save(pedido);
     }
 

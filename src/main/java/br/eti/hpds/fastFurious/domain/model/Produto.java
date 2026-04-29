@@ -15,7 +15,6 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @NotBlank
     @Size(max=60)
     private String name;
     
