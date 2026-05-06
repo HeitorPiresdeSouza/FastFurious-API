@@ -4,6 +4,7 @@ import br.eti.hpds.fastFurious.domain.model.Pedido;
 import br.eti.hpds.fastFurious.domain.model.StatusPedido;
 import br.eti.hpds.fastFurious.domain.repository.PedidoRepository;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public class PedidoService {
 
     @Autowired
     private PedidoRepository pedidoRepository;
-
+    
     public Optional<Pedido> atualizarStatus(Long id, StatusPedido novoStatus) {
 
         Optional<Pedido> optPedido = pedidoRepository.findById(id);
@@ -42,7 +43,7 @@ public class PedidoService {
             pedidoAntigo.setDataCancelado(LocalDateTime.now());
 
         } else {
-            throw new RuntimeException("Status " + novoStatus + " não pode ser aplicado em ." + pedidoAntigo.getStatus().name());
+            throw new RuntimeException("Status " + novoStatus + " não pode ser aplicado em " + pedidoAntigo.getStatus().name());
         }
 
         optPedido = Optional.of(pedidoRepository.save(pedidoAntigo));
@@ -58,7 +59,7 @@ public class PedidoService {
 //        pedido.setStatus(StatusPedido.ABERTO);
 //        return pedidoRepository.save(pedido);
 //    }
-//    
+//      
     public Pedido criar(Pedido pedido) {
         pedido.setDataAbertura(LocalDateTime.now());
         pedido.setStatus(StatusPedido.ABERTO);

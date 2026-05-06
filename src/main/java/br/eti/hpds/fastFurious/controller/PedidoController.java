@@ -47,6 +47,20 @@ public class PedidoController {
         }
     }
 
+    @GetMapping("/pedido/status/{status}")
+    public ResponseEntity<List<Pedido>> buscarByStatus(@PathVariable String status) {
+        
+            StatusPedido statusEnum = StatusPedido.valueOf(status.toUpperCase());
+
+            List<Pedido> lista = pedidoRepository.findByStatus(statusEnum);
+
+            if (lista.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+
+            return ResponseEntity.ok(lista);
+    }
+
     @PostMapping("/pedido")
     @ResponseStatus(HttpStatus.CREATED)
     public Pedido criar(@Valid @RequestBody Pedido pedido) {
