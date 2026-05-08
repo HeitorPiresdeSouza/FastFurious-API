@@ -5,6 +5,9 @@ import br.eti.hpds.fastFurious.domain.model.Pedido;
 import br.eti.hpds.fastFurious.domain.model.StatusPedido;
 import br.eti.hpds.fastFurious.domain.repository.PedidoRepository;
 import br.eti.hpds.fastFurious.service.PedidoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,11 +34,21 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @GetMapping("/pedido")
+    @Operation(summary = "Lista os Pedidos", description = "Retorna todos os Pedidos")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+        @ApiResponse(responseCode = "404", description = "Not found - The product was not found")}
+    )
     public List<Pedido> listar() {
         return pedidoRepository.findAll();
     }
 
     @GetMapping("/pedido/{pedidoID}")
+    @Operation(summary = "Lista os Pedidos por ID", description = "Retorna os Pedidos de um determinado ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+        @ApiResponse(responseCode = "404", description = "Not found - The product was not found")}
+    )
     public ResponseEntity<Pedido> buscarById(@PathVariable Long pedidoID) {
 
         Optional<Pedido> pedido = pedidoRepository.findById(pedidoID);
@@ -48,6 +61,11 @@ public class PedidoController {
     }
 
     @GetMapping("/pedido/status/{status}")
+    @Operation(summary = "Lista os Pedidos por status", description = "Retorna os Pedidos de um determinado status")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+        @ApiResponse(responseCode = "404", description = "Not found - The product was not found")}
+    )
     public ResponseEntity<List<Pedido>> buscarByStatus(@PathVariable String status) {
         
             StatusPedido statusEnum = StatusPedido.valueOf(status.toUpperCase());
@@ -62,6 +80,11 @@ public class PedidoController {
     }
 
     @PostMapping("/pedido")
+    @Operation(summary = "Publica um determinada Pedido", description = "Publicação de um Pedido na base de dados")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Successfully posted"),
+        @ApiResponse(responseCode = "422", description = "The format is correct, but the data failed the business rule")}
+    )
     @ResponseStatus(HttpStatus.CREATED)
     public Pedido criar(@Valid @RequestBody Pedido pedido) {
 
@@ -69,6 +92,11 @@ public class PedidoController {
     }
 
     @PutMapping("/pedido/atualizaStatus/{pedidoID}")
+    @Operation(summary = "Atualiza o status de um Pedido determinado ", description = "Atualização de um status na base de dados")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully updated"),
+        @ApiResponse(responseCode = "404", description = "Not found - The product was not found")}
+    )
     public ResponseEntity<Pedido> atualizarStatus(@Valid @PathVariable Long pedidoID,
             @RequestBody AtualizaStatusDTO atualizaStatusDTO) {
 
@@ -83,6 +111,11 @@ public class PedidoController {
     }
 
     @PutMapping("/pedido/{pedidoID}")
+    @Operation(summary = "Atualiza um determinado Pedido ", description = "Atualização de um Pedido na base de dados")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully updated"),
+        @ApiResponse(responseCode = "404", description = "Not found - The product was not found")}
+    )
     public ResponseEntity<Pedido> atualizar(@Valid @PathVariable Long pedidoID,
             @RequestBody Pedido pedido) {
 
