@@ -3,11 +3,10 @@ package br.eti.hpds.fastFurious.service;
 import br.eti.hpds.fastFurious.domain.model.Pedido;
 import br.eti.hpds.fastFurious.domain.model.StatusPedido;
 import br.eti.hpds.fastFurious.domain.repository.PedidoRepository;
+import br.eti.hpds.fastFurious.exceptionhandler.ProblemaException;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,11 +33,12 @@ public class PedidoService {
             pedidoAntigo.setDataPronto(LocalDateTime.now());
 
         } else if (novoStatus == StatusPedido.ENTREGUE && pedidoAntigo.getStatus() == StatusPedido.PRONTO) {
-            // Só pode mudar para pronto quando EM ABERTO
+            // Só pode mudar para entregue quando EM PRONTO
             pedidoAntigo.setStatus(StatusPedido.ENTREGUE);
             pedidoAntigo.setDataEntregue(LocalDateTime.now());
 
         } else if (novoStatus == StatusPedido.CANCELADO && pedidoAntigo.getStatus() != StatusPedido.ENTREGUE) {
+            // Só pode mudar para cancelado se não estiver EM ENTREGUE
             pedidoAntigo.setStatus(StatusPedido.CANCELADO);
             pedidoAntigo.setDataCancelado(LocalDateTime.now());
 
@@ -81,8 +81,6 @@ public class PedidoService {
         }
 
         Pedido pedidoExistente = optPedidoExistente.get();
-        pedidoExistente.setNomeCliente(pedidoNovo.getNomeCliente());
-        pedidoExistente.setCpf(pedidoNovo.getCpf());
         
         return Optional.of(pedidoRepository.save(pedidoExistente));
 

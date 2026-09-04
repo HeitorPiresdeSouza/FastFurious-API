@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
@@ -17,9 +16,6 @@ public class ItemPedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @Size(max=150)
-    private String obs;
     
     @NotNull
     private Double vUnit;
@@ -38,7 +34,6 @@ public class ItemPedido {
 
     public ItemPedido(Long id, String obs, Double vUnit, Produto produto) {
         this.id = id;
-        this.obs = obs;
         this.vUnit = vUnit;
         this.produto = produto;
     }
@@ -57,14 +52,6 @@ public class ItemPedido {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getObs() {
-        return obs;
-    }
-
-    public void setObs(String obs) {
-        this.obs = obs;
     }
 
     public Double getvUnit() {
@@ -88,7 +75,6 @@ public class ItemPedido {
     public int hashCode() {
         int hash = 3;
         hash = 97 * hash + (int) (this.id ^ (this.id >>> 32));
-        hash = 97 * hash + Objects.hashCode(this.obs);
         hash = 97 * hash + Objects.hashCode(this.vUnit);
         hash = 97 * hash + Objects.hashCode(this.produto);
         return hash;
@@ -107,9 +93,6 @@ public class ItemPedido {
         }
         final ItemPedido other = (ItemPedido) obj;
         if (this.id != other.id) {
-            return false;
-        }
-        if (!Objects.equals(this.obs, other.obs)) {
             return false;
         }
         if (!Objects.equals(this.vUnit, other.vUnit)) {

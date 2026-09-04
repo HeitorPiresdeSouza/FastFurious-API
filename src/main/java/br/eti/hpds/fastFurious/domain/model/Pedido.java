@@ -9,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -28,37 +27,30 @@ public class Pedido {
     private LocalDateTime dataPronto;
     
     private LocalDateTime dataEntregue;
-    
-    @NotNull
-    @Size(max=100)
-    private String nomeCliente;
-    
-    @NotNull
-    @Size(max=11)
-    private String cpf;
-    
+
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List <ItemPedido> listaItens;
     
     @Enumerated(EnumType.STRING)
     private StatusPedido status;
+    
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private TipoConsumo consumo;
 
     public Pedido() {
     }
 
-    public Pedido(Long id, LocalDateTime dataAbertura, LocalDateTime dataCancelado, LocalDateTime dataPronto, LocalDateTime dataEntregue, String nomeCliente, String cpf, List<ItemPedido> listaItens, StatusPedido status) {
+    public Pedido(Long id, LocalDateTime dataAbertura, LocalDateTime dataCancelado, LocalDateTime dataPronto, LocalDateTime dataEntregue, List<ItemPedido> listaItens, StatusPedido status, TipoConsumo consumo) {
         this.id = id;
         this.dataAbertura = dataAbertura;
         this.dataCancelado = dataCancelado;
         this.dataPronto = dataPronto;
         this.dataEntregue = dataEntregue;
-        this.nomeCliente = nomeCliente;
-        this.cpf = cpf;
         this.listaItens = listaItens;
         this.status = status;
+        this.consumo = consumo;
     }
-
-    
     
     public Long getId() {
         return id;
@@ -84,23 +76,6 @@ public class Pedido {
         this.dataCancelado = dataCancelado;
     }
 
-    
-
-    public String getNomeCliente() {
-        return nomeCliente;
-    }
-
-    public void setNomeCliente(String nomeCliente) {
-        this.nomeCliente = nomeCliente;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
 
     public List<ItemPedido> getListaItens() {
         return listaItens;
@@ -135,10 +110,25 @@ public class Pedido {
         this.dataEntregue = dataEntregue;
     }
 
+    public TipoConsumo getConsumo() {
+        return consumo;
+    }
+
+    public void setConsumo(TipoConsumo consumo) {
+        this.consumo = consumo;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 5;
+        int hash = 7;
         hash = 37 * hash + Objects.hashCode(this.id);
+        hash = 37 * hash + Objects.hashCode(this.dataAbertura);
+        hash = 37 * hash + Objects.hashCode(this.dataCancelado);
+        hash = 37 * hash + Objects.hashCode(this.dataPronto);
+        hash = 37 * hash + Objects.hashCode(this.dataEntregue);
+        hash = 37 * hash + Objects.hashCode(this.listaItens);
+        hash = 37 * hash + Objects.hashCode(this.status);
+        hash = 37 * hash + Objects.hashCode(this.consumo);
         return hash;
     }
 
@@ -154,9 +144,27 @@ public class Pedido {
             return false;
         }
         final Pedido other = (Pedido) obj;
-        return Objects.equals(this.id, other.id);
-    }
-
-    
-    
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataAbertura, other.dataAbertura)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataCancelado, other.dataCancelado)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataPronto, other.dataPronto)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataEntregue, other.dataEntregue)) {
+            return false;
+        }
+        if (!Objects.equals(this.listaItens, other.listaItens)) {
+            return false;
+        }
+        if (this.status != other.status) {
+            return false;
+        }
+        return this.consumo == other.consumo;
+    }    
 }

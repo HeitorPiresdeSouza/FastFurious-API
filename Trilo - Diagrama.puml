@@ -1,18 +1,15 @@
 @startuml
 class Pedido{
     - Long id
-    - String status
     - LocalDateTime dataAbertura
     - LocalDateTime dataCancelado
     - LocalDateTime dataPronto
     - LocalDateTime dataEntregue
-    - List listaItens
-    - StatusPedido status
 }
 
 class ItemPedido{
     - Long id
-    - Douvle vUnit
+    - Double vUnit
 }
 
 class Produto{
