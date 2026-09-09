@@ -37,11 +37,15 @@ public class Pedido {
     @NotNull
     @Enumerated(EnumType.STRING)
     private TipoConsumo consumo;
+    
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private OpcaoPagamento pagamento;
 
     public Pedido() {
     }
 
-    public Pedido(Long id, LocalDateTime dataAbertura, LocalDateTime dataCancelado, LocalDateTime dataPronto, LocalDateTime dataEntregue, List<ItemPedido> listaItens, StatusPedido status, TipoConsumo consumo) {
+    public Pedido(Long id, LocalDateTime dataAbertura, LocalDateTime dataCancelado, LocalDateTime dataPronto, LocalDateTime dataEntregue, List<ItemPedido> listaItens, StatusPedido status, TipoConsumo consumo, OpcaoPagamento pagamento) {
         this.id = id;
         this.dataAbertura = dataAbertura;
         this.dataCancelado = dataCancelado;
@@ -50,6 +54,7 @@ public class Pedido {
         this.listaItens = listaItens;
         this.status = status;
         this.consumo = consumo;
+        this.pagamento = pagamento;
     }
     
     public Long getId() {
@@ -118,17 +123,26 @@ public class Pedido {
         this.consumo = consumo;
     }
 
+    public OpcaoPagamento getPagamento() {
+        return pagamento;
+    }
+
+    public void setPagamento(OpcaoPagamento pagamento) {
+        this.pagamento = pagamento;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.id);
-        hash = 37 * hash + Objects.hashCode(this.dataAbertura);
-        hash = 37 * hash + Objects.hashCode(this.dataCancelado);
-        hash = 37 * hash + Objects.hashCode(this.dataPronto);
-        hash = 37 * hash + Objects.hashCode(this.dataEntregue);
-        hash = 37 * hash + Objects.hashCode(this.listaItens);
-        hash = 37 * hash + Objects.hashCode(this.status);
-        hash = 37 * hash + Objects.hashCode(this.consumo);
+        int hash = 3;
+        hash = 53 * hash + Objects.hashCode(this.id);
+        hash = 53 * hash + Objects.hashCode(this.dataAbertura);
+        hash = 53 * hash + Objects.hashCode(this.dataCancelado);
+        hash = 53 * hash + Objects.hashCode(this.dataPronto);
+        hash = 53 * hash + Objects.hashCode(this.dataEntregue);
+        hash = 53 * hash + Objects.hashCode(this.listaItens);
+        hash = 53 * hash + Objects.hashCode(this.status);
+        hash = 53 * hash + Objects.hashCode(this.consumo);
+        hash = 53 * hash + Objects.hashCode(this.pagamento);
         return hash;
     }
 
@@ -165,6 +179,10 @@ public class Pedido {
         if (this.status != other.status) {
             return false;
         }
-        return this.consumo == other.consumo;
-    }    
+        if (this.consumo != other.consumo) {
+            return false;
+        }
+        return this.pagamento == other.pagamento;
+    }
+    
 }
