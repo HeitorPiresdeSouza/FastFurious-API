@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 public class Produto {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -146,8 +146,5 @@ public class Produto {
             return false;
         }
         return Objects.equals(this.valor, other.valor);
-    }
-    
-    
-    
+    }    
 }
